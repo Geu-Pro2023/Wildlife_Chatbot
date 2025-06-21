@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WildGuard | Wildlife Conservation Chatbot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2B8C44;
+            --primary-dark: #1F6E35;
+            --primary-light: #E6F4EA;
+            --secondary: #FF9F1C;
+            --dark: #1A2E22;
+            --light: #FFFFFF;
+            --gray: #F5F5F5;
+            --gray-dark: #E0E0E0;
+            --text: #333333;
+            --text-light: #666666;
+            --error: #E74C3C;
+            --success: #2ECC71;
+
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-full: 9999px;
+
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition-fast: all 0.15s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background-color: var(--gray);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--light) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .welcome-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-20px);
+        }
+
+        .welcome-logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 2rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .welcome-title {
+            font-size: 3rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.3s forwards;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-button {
+            padding: 1rem 2.5rem;
+            background-color: var(--primary);
+            color: var(--light);
+            border: none;
+            border-radius: var(--radius-full);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.7s forwards;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .welcome-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .welcome-button:active {
+            transform: translateY(0);
+        }
+
+        .welcome-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float-particle linear infinite;
+        }
+
+        @keyframes float-particle {
+            to {
+                transform: translateY(-100vh);
+            }
+        }
+
+        /* Instructions Popup */
+        .instructions-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1002;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .instructions-popup.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .instructions-content {
+            background-color: var(--light);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .instructions-popup.active .instructions-content {
+            transform: translateY(0);
+        }
+
+        .instructions-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .instructions-title {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .instructions-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .instructions-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 0.9375rem;
+        }
+
+        .instructions-icon {
+            color: var(--primary);
+            margin-top: 0.2rem;
+        }
+
+        .instructions-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: var(--gray);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .instructions-close:hover {
+            background-color: var(--gray-dark);
+        }
+
+        /* Auth Screens */
+        .auth-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .auth-container.active {
+            opacity: 1;
+        }
+
+        .auth-content {
+            background-color: var(--light);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            transform: translateY(20px);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        .auth-container.active .auth-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .auth-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .auth-logo {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1rem;
+            display: block;
+        }
+
+        .auth-title {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-dark);
+            border-radius: var(--radius-md);
+            font-size: 0.9375rem;
+            transition: var(--transition);
+            background-color: var(--gray);
+            padding-right: 2.5rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(43, 140, 68, 0.2);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8125rem;
+        }
+
+        .forgot-password {
+            font-size: 0.8125rem;
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .forgot-password:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary);
+            color: var(--light);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 0.5rem;
+        }
+
+        .auth-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .auth-button:active {
+            transform: translateY(0);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.25rem;
+            font-size: 0.8125rem;
+            color: var(--text-light);
+        }
+
+        .auth-link {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .auth-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .close-auth {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: var(--gray);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .close-auth:hover {
+            background-color: var(--gray-dark);
+        }
+
+        /* Main Chat Container */
+        .app-container {
+            display: none;
+            height: calc(100vh - 40px);
+            overflow: hidden;
+            background-color: var(--gray);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            margin: 10px;
+        }
+
+        .app-container.active {
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            height: 100%;
+            background-color: var(--light);
+            border-right: 1px solid var(--gray-dark);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            position: relative;
+            z-index: 10;
+        }
+
+        .sidebar.collapsed {
+            width: 60px;
+        }
+
+        .sidebar-header {
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--gray-dark);
+            position: relative;
+        }
+
+        .sidebar.collapsed .sidebar-header {
+            justify-content: center;
+        }
+
+        .sidebar-logo {
+            width: 32px;
+            height: 32px;
+            transition: var(--transition);
+        }
+
+        .sidebar.collapsed .sidebar-logo {
+            width: 28px;
+            height: 28px;
+        }
+
+        .sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            transition: var(--transition);
+        }
+
+        .sidebar.collapsed .sidebar-title {
+            opacity: 0;
+            width: 0;
+        }
+
+        .sidebar-collapse {
+            position: absolute;
+            right: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background-color: var(--light);
+            border: 1px solid var(--gray-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 11;
+            transition: var(--transition);
+        }
+
+        .sidebar-collapse:hover {
+            background-color: var(--gray);
+        }
+
+        .sidebar.collapsed .sidebar-collapse {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .sidebar-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-button {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.625rem 0.75rem;
+            background-color: var(--primary);
+            color: var(--light);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .sidebar.collapsed .sidebar-button {
+            justify-content: center;
+            padding: 0.625rem;
+        }
+
+        .sidebar.collapsed .sidebar-button span {
+            display: none;
+        }
+
+        .sidebar-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sidebar-button.secondary {
+            background-color: var(--gray);
+            color: var(--text);
+        }
+
+        .sidebar-button.secondary:hover {
+            background-color: var(--gray-dark);
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar.collapsed .section-title span {
+            display: none;
+        }
+
+        .chat-history {
+            display: flex;
+            flex-direction: column;
+            gap: 0.375rem;
+        }
+
+        .chat-item {
+            padding: 0.5rem;
+            border-radius: var(--radius-md);
+            font-size: 0.65rem;
+            /* Reduced font size */
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .chat-item:hover {
+            background-color: var(--gray);
+        }
+
+        .chat-item.active {
+            background-color: var(--primary-light);
+            font-weight: 500;
+        }
+
+        .chat-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--gray);
+            border-radius: var(--radius-md);
+            color: var(--primary);
+            font-size: 0.6875rem;
+        }
+
+        .chat-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-title {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 0.65rem;
+            /* Reduced font size */
+        }
+
+        .chat-time {
+            font-size: 0.6rem;
+            /* Reduced font size */
+            color: var(--text-light);
+            margin-top: 0.125rem;
+        }
+
+        .sidebar.collapsed .chat-info {
+            display: none;
+        }
+
+        .chat-actions {
+            display: none;
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--light);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .chat-item:hover .chat-actions {
+            display: flex;
+        }
+
+        .chat-action {
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition-fast);
+            font-size: 0.6875rem;
+        }
+
+        .chat-action:hover {
+            color: var(--primary);
+            background-color: var(--gray);
+        }
+
+        .sidebar-footer {
+            padding: 0.75rem;
+            border-top: 1px solid var(--gray-dark);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sidebar.collapsed .user-profile {
+            justify-content: center;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+            font-size: 0.8125rem;
+        }
+
+        .user-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .sidebar.collapsed .user-info {
+            display: none;
+        }
+
+        .user-name {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 0.8125rem;
+        }
+
+        .user-email {
+            font-size: 0.625rem;
+            color: var(--text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-settings {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition-fast);
+            font-size: 0.8125rem;
+        }
+
+        .user-settings:hover {
+            background-color: var(--gray);
+            color: var(--primary);
+        }
+
+        .sidebar-utilities {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--gray-dark);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: var(--light);
+        }
+
+        /* Chat Header */
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .chat-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            text-align: center;
+        }
+
+        /* Chat Area */
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background-color: var(--light);
+        }
+
+        .message {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--text-light);
+        }
+
+        .message-user .message-avatar {
+            background-color: var(--primary);
+            color: var(--light);
+        }
+
+        .message-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.375rem;
+        }
+
+        .message-text {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .message-bot .message-text {
+            background-color: var(--gray);
+            border-top-left-radius: 0;
+        }
+
+        .message-user .message-text {
+            background-color: var(--primary);
+            color: var(--light);
+            border-top-right-radius: 0;
+        }
+
+        .message-time {
+            font-size: 0.6875rem;
+            color: var(--text-light);
+        }
+
+        .message-user .message-time {
+            align-self: flex-end;
+        }
+
+        .message-user {
+            align-self: flex-end;
+        }
+
+        .message-bot {
+            align-self: flex-start;
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--gray-dark);
+            background-color: var(--light);
+            position: relative;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--gray);
+            border-radius: var(--radius-lg);
+            padding: 0.5rem 0.75rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .input-container:focus-within {
+            box-shadow: 0 0 0 3px rgba(43, 140, 68, 0.2);
+        }
+
+        .input-field {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+            resize: none;
+            max-height: 120px;
+            outline: none;
+            width: 100%;
+            padding-left: 1rem;
+        }
+
+        .input-placeholder {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--text-light);
+            pointer-events: none;
+            font-size: 0.875rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .input-field:focus+.input-placeholder,
+        .input-field:not(:placeholder-shown)+.input-placeholder {
+            opacity: 0;
+        }
+
+        .input-button {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: var(--light);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .input-button:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .input-button:disabled {
+            background-color: var(--gray-dark);
+            cursor: not-allowed;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 0.25rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--gray);
+            border-radius: var(--radius-full);
+            width: fit-content;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--text-light);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .app-container {
+                height: calc(100vh - 30px);
+                margin: 5px;
+            }
+
+            .sidebar {
+                position: absolute;
+                left: -280px;
+                z-index: 100;
+                box-shadow: var(--shadow-xl);
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+
+            .chat-header {
+                padding-left: 3rem;
+                padding-right: 3rem;
+            }
+        }
+
+        /* Dark Mode */
+        .dark-mode {
+            --light: #1A2E22;
+            --gray: #122119;
+            --gray-dark: #0A1912;
+            --text: #E0F0E8;
+            --text-light: #A0B8A8;
+            --dark: #E6F4EA;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcome-screen">
+        <div class="welcome-particles" id="particles"></div>
+        <img src="https://cdn-icons-png.flaticon.com/512/3612/3612569.png" alt="WildGuard Logo" class="welcome-logo">
+        <h1 class="welcome-title">WildGuard</h1>
+        <p class="welcome-subtitle">Your intelligent companion for wildlife conservation and education</p>
+        <button class="welcome-button" id="start-button">
+            <i class="fas fa-leaf"></i> Begin Journey
+        </button>
+    </div>
+
+    <!-- Instructions Popup -->
+    <div class="instructions-popup" id="instructions-popup">
+        <div class="instructions-content">
+            <button class="instructions-close" id="instructions-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="instructions-header">
+                <h2 class="instructions-title">Welcome to WildGuard Chatbot</h2>
+            </div>
+            <ul class="instructions-list">
+                <li class="instructions-item">
+                    <i class="fas fa-question instructions-icon"></i>
+                    <span>Ask any question about wildlife conservation</span>
+                </li>
+                <li class="instructions-item">
+                    <i class="fas fa-info-circle instructions-icon"></i>
+                    <span>Type the question of your choice in the textfield and click send icon</span>
+                </li>
+                <li class="instructions-item">
+                    <i class="fas fa-globe-americas instructions-icon"></i>
+                    <span>Once you enter your question, the chatbot will process and give answer</span>
+                </li>
+                <li class="instructions-item">
+                    <i class="fas fa-keyboard instructions-icon"></i>
+                    <span>You can clear the chat history or edit your question if you type it wrongly</span>
+                </li>
+            </ul>
+            <button class="auth-button" id="instructions-understood">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Auth Screens -->
+    <div class="auth-container" id="login-container">
+        <div class="auth-content">
+            <button class="close-auth" id="close-login">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="https://cdn-icons-png.flaticon.com/512/3612/3612569.png" alt="WildGuard Logo" class="auth-logo">
+            <h2 class="auth-title">Welcome Back</h2>
+            <p class="auth-subtitle">Sign in to continue your wildlife conservation journey</p>
+            <form class="auth-form" id="login-form">
+                <div class="form-group">
+                    <input type="email" class="form-input" placeholder="Email" required id="login-email">
+                    <i class="fas fa-envelope input-icon" id="email-icon"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-input" placeholder="Password" required id="login-password">
+                    <i class="fas fa-eye input-icon toggle-password" id="toggle-password"></i>
+                </div>
+                <div class="form-actions">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember-me">
+                        <label for="remember-me">Remember me</label>
+                    </div>
+                    <a class="forgot-password" id="forgot-password">Forgot password?</a>
+                </div>
+                <button type="submit" class="auth-button">Sign In</button>
+            </form>
+            <div class="auth-footer">
+                Don't have an account? <a class="auth-link" id="show-signup">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-container" id="signup-container">
+        <div class="auth-content">
+            <button class="close-auth" id="close-signup">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="https://cdn-icons-png.flaticon.com/512/3612/3612569.png" alt="WildGuard Logo" class="auth-logo">
+            <h2 class="auth-title">Join WildGuard</h2>
+            <p class="auth-subtitle">Create your account to start exploring wildlife conservation</p>
+            <form class="auth-form" id="signup-form">
+                <div class="form-group">
+                    <input type="text" class="form-input" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-input" placeholder="Email" required id="signup-email">
+                    <i class="fas fa-envelope input-icon" id="signup-email-icon"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-input" placeholder="Password" required id="signup-password">
+                    <i class="fas fa-eye input-icon toggle-password" id="toggle-signup-password"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-input" placeholder="Confirm Password" required
+                        id="confirm-password">
+                    <i class="fas fa-eye input-icon toggle-password" id="toggle-confirm-password"></i>
+                </div>
+                <button type="submit" class="auth-button">Create Account</button>
+            </form>
+            <div class="auth-footer">
+                Already have an account? <a class="auth-link" id="show-login">Sign in</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app-container" id="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="https://cdn-icons-png.flaticon.com/512/3612/3612569.png" alt="WildGuard Logo"
+                    class="sidebar-logo">
+                <h2 class="sidebar-title">WildGuard</h2>
+                <button class="sidebar-collapse" id="sidebar-collapse">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="sidebar-content">
+                <div class="sidebar-actions">
+                    <button class="sidebar-button" id="new-chat-button">
+                        <i class="fas fa-plus"></i> <span>New Chat</span>
+                    </button>
+                    <button class="sidebar-button secondary" id="clear-history-button">
+                        <i class="fas fa-trash"></i> <span>Clear History</span>
+                    </button>
+                </div>
+                <div class="sidebar-section">
+                    <div class="section-title">
+                        <i class="fas fa-history"></i> <span>Recent Chats</span>
+                    </div>
+                    <div class="chat-history" id="chat-history">
+                        <div class="chat-item active">
+                            <div class="chat-icon">
+                                <i class="fas fa-paw"></i>
+                            </div>
+                            <div class="chat-info">
+                                <div class="chat-title">Lion conservation</div>
+                                <div class="chat-time">Today, 10:30 AM</div>
+                            </div>
+                        </div>
+                        <div class="chat-item">
+                            <div class="chat-icon">
+                                <i class="fas fa-tree"></i>
+                            </div>
+                            <div class="chat-info">
+                                <div class="chat-title">Rainforest biodiversity</div>
+                                <div class="chat-time">Yesterday, 4:15 PM</div>
+                            </div>
+                        </div>
+                        <div class="chat-item">
+                            <div class="chat-icon">
+                                <i class="fas fa-water"></i>
+                            </div>
+                            <div class="chat-info">
+                                <div class="chat-title">Marine ecosystem</div>
+                                <div class="chat-time">Jun 18, 2:00 PM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">GA</div>
+                    <div class="user-info">
+                        <div class="user-name">Geu Aguto</div>
+                        <div class="user-email">g.bior@alustudent.com</div>
+                    </div>
+                </div>
+                <div class="sidebar-utilities">
+                    <button class="user-settings" id="dark-mode-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="user-settings" id="user-settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="chat-header">
+                <h2 class="chat-title">Wildlife Conservation</h2>
+            </div>
+            <div class="chat-area" id="chat-area">
+                <div class="message message-bot">
+                    <div class="message-avatar">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-text">
+                            Hello! I'm WildGuard, your wildlife conservation assistant. How can I help you today?
+                        </div>
+                        <div class="message-time">10:30 AM</div>
+                    </div>
+                </div>
+            </div>
+            <div class="input-area">
+                <div class="input-container">
+                    <textarea class="input-field" id="message-input" placeholder=" " rows="1"></textarea>
+                    <div class="input-placeholder">Ask about wildlife conservation...</div>
+                    <button class="input-button" id="send-button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const startButton = document.getElementById('start-button');
+        const loginContainer = document.getElementById('login-container');
+        const signupContainer = document.getElementById('signup-container');
+        const closeLogin = document.getElementById('close-login');
+        const closeSignup = document.getElementById('close-signup');
+        const showLogin = document.getElementById('show-login');
+        const showSignup = document.getElementById('show-signup');
+        const forgotPassword = document.getElementById('forgot-password');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const appContainer = document.getElementById('app-container');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarCollapse = document.getElementById('sidebar-collapse');
+        const newChatButton = document.getElementById('new-chat-button');
+        const clearHistoryButton = document.getElementById('clear-history-button');
+        const chatHistory = document.getElementById('chat-history');
+        const chatArea = document.getElementById('chat-area');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const userSettings = document.getElementById('user-settings');
+        const instructionsPopup = document.getElementById('instructions-popup');
+        const instructionsClose = document.getElementById('instructions-close');
+        const instructionsUnderstood = document.getElementById('instructions-understood');
+        const togglePassword = document.getElementById('toggle-password');
+        const toggleSignupPassword = document.getElementById('toggle-signup-password');
+        const toggleConfirmPassword = document.getElementById('toggle-confirm-password');
+        const loginPassword = document.getElementById('login-password');
+        const signupPassword = document.getElementById('signup-password');
+        const confirmPassword = document.getElementById('confirm-password');
+        const loginEmail = document.getElementById('login-email');
+        const signupEmail = document.getElementById('signup-email');
+        const emailIcon = document.getElementById('email-icon');
+        const signupEmailIcon = document.getElementById('signup-email-icon');
+
+        // Particles Animation
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                // Random size between 5 and 15px
+                const size = Math.random() * 10 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.bottom = `-${size}px`;
+
+                // Random animation duration between 10s and 20s
+                const duration = Math.random() * 10 + 10;
+                particle.style.animationDuration = `${duration}s`;
+
+                // Random delay
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize particles
+        createParticles();
+
+        // Welcome Screen
+        startButton.addEventListener('click', () => {
+            welcomeScreen.classList.add('hidden');
+            setTimeout(() => {
+                loginContainer.style.display = 'flex';
+                setTimeout(() => {
+                    loginContainer.classList.add('active');
+                }, 10);
+            }, 800);
+        });
+
+        // Instructions Popup
+        function showInstructions() {
+            instructionsPopup.classList.add('active');
+        }
+
+        function hideInstructions() {
+            instructionsPopup.classList.remove('active');
+        }
+
+        instructionsClose.addEventListener('click', hideInstructions);
+        instructionsUnderstood.addEventListener('click', hideInstructions);
+
+        // Auth Navigation
+        showSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginContainer.classList.remove('active');
+            setTimeout(() => {
+                loginContainer.style.display = 'none';
+                signupContainer.style.display = 'flex';
+                setTimeout(() => {
+                    signupContainer.classList.add('active');
+                }, 10);
+            }, 300);
+        });
+
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupContainer.classList.remove('active');
+            setTimeout(() => {
+                signupContainer.style.display = 'none';
+                loginContainer.style.display = 'flex';
+                setTimeout(() => {
+                    loginContainer.classList.add('active');
+                }, 10);
+            }, 300);
+        });
+
+        closeLogin.addEventListener('click', () => {
+            loginContainer.classList.remove('active');
+            setTimeout(() => {
+                loginContainer.style.display = 'none';
+                welcomeScreen.classList.remove('hidden');
+            }, 300);
+        });
+
+        closeSignup.addEventListener('click', () => {
+            signupContainer.classList.remove('active');
+            setTimeout(() => {
+                signupContainer.style.display = 'none';
+                welcomeScreen.classList.remove('hidden');
+            }, 300);
+        });
+
+        // Forgot password
+        forgotPassword.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Password reset link will be sent to your email');
+        });
+
+        // Toggle password visibility
+        function togglePasswordVisibility(input, icon) {
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        togglePassword.addEventListener('click', () => {
+            togglePasswordVisibility(loginPassword, togglePassword);
+        });
+
+        toggleSignupPassword.addEventListener('click', () => {
+            togglePasswordVisibility(signupPassword, toggleSignupPassword);
+        });
+
+        toggleConfirmPassword.addEventListener('click', () => {
+            togglePasswordVisibility(confirmPassword, toggleConfirmPassword);
+        });
+
+        // Email validation indicators
+        function validateEmail(email, icon) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (re.test(email.value)) {
+                icon.style.color = 'var(--success)';
+            } else {
+                icon.style.color = 'var(--text-light)';
+            }
+        }
+
+        loginEmail.addEventListener('input', () => {
+            validateEmail(loginEmail, emailIcon);
+        });
+
+        signupEmail.addEventListener('input', () => {
+            validateEmail(signupEmail, signupEmailIcon);
+        });
+
+        // Form Submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loginContainer.classList.remove('active');
+            setTimeout(() => {
+                loginContainer.style.display = 'none';
+                showInstructions();
+                setTimeout(() => {
+                    appContainer.classList.add('active');
+                }, 300);
+            }, 300);
+        });
+
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (signupPassword.value !== confirmPassword.value) {
+                alert('Passwords do not match');
+                return;
+            }
+            signupContainer.classList.remove('active');
+            setTimeout(() => {
+                signupContainer.style.display = 'none';
+                showInstructions();
+                setTimeout(() => {
+                    appContainer.classList.add('active');
+                }, 300);
+            }, 300);
+        });
+
+        // Chat Functionality
+        newChatButton.addEventListener('click', () => {
+            // Clear chat area
+            chatArea.innerHTML = '';
+
+            // Add bot greeting
+            addBotMessage("Hello! I'm WildGuard, your wildlife conservation assistant. What would you like to learn about today?");
+
+            // Add to chat history
+            const now = new Date();
+            const chatItem = createChatItem("New Chat", now);
+            chatHistory.insertBefore(chatItem, chatHistory.firstChild);
+
+            // Highlight the new chat
+            document.querySelectorAll('.chat-item').forEach(item => item.classList.remove('active'));
+            chatItem.classList.add('active');
+        });
+
+        clearHistoryButton.addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear all chat history?')) {
+                chatHistory.innerHTML = '';
+            }
+        });
+
+        // Send Message
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message) {
+                addUserMessage(message);
+                messageInput.value = '';
+                adjustTextareaHeight();
+
+                // Simulate bot typing
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'message message-bot';
+                typingIndicator.innerHTML = `
+                    <div class="message-avatar">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="message-content">
+                        <div class="typing-indicator">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                `;
+                chatArea.appendChild(typingIndicator);
+                chatArea.scrollTop = chatArea.scrollHeight;
+
+                // Simulate bot response after delay
+                setTimeout(() => {
+                    chatArea.removeChild(typingIndicator);
+                    const responses = [
+                        "That's an excellent question about wildlife conservation. Let me share some insights...",
+                        "I'm glad you asked about that. Here's what I know...",
+                        "Wildlife conservation is crucial. Here's some information...",
+                        "That's an important topic. Here are the details..."
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addBotMessage(randomResponse);
+                }, 1500 + Math.random() * 2000);
+            }
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Auto-resize textarea
+        function adjustTextareaHeight() {
+            messageInput.style.height = 'auto';
+            messageInput.style.height = `${Math.min(messageInput.scrollHeight, 120)}px`;
+        }
+
+        messageInput.addEventListener('input', adjustTextareaHeight);
+
+        // Add message functions
+        function addUserMessage(text) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const message = document.createElement('div');
+            message.className = 'message message-user';
+            message.innerHTML = `
+                <div class="message-content">
+                    <div class="message-text">${text}</div>
+                    <div class="message-time">${timeString}</div>
+                </div>
+                <div class="message-avatar">JD</div>
+            `;
+
+            chatArea.appendChild(message);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function addBotMessage(text) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const message = document.createElement('div');
+            message.className = 'message message-bot';
+            message.innerHTML = `
+                <div class="message-avatar">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="message-content">
+                    <div class="message-text">${text}</div>
+                    <div class="message-time">${timeString}</div>
+                </div>
+            `;
+
+            chatArea.appendChild(message);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function createChatItem(title, date) {
+            const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const dateString = date.toLocaleDateString();
+
+            const icons = ['fa-paw', 'fa-tree', 'fa-water', 'fa-mountain', 'fa-feather'];
+            const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+
+            const chatItem = document.createElement('div');
+            chatItem.className = 'chat-item';
+            chatItem.innerHTML = `
+                <div class="chat-icon">
+                    <i class="fas ${randomIcon}"></i>
+                </div>
+                <div class="chat-info">
+                    <div class="chat-title">${title}</div>
+                    <div class="chat-time">${dateString}, ${timeString}</div>
+                </div>
+            `;
+
+            // Add click handler
+            chatItem.addEventListener('click', (e) => {
+                document.querySelectorAll('.chat-item').forEach(item => item.classList.remove('active'));
+                chatItem.classList.add('active');
+
+                // Update chat area (simulated)
+                chatArea.innerHTML = `
+                    <div class="message message-bot">
+                        <div class="message-avatar">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-text">
+                                Continuing our conversation about ${title.toLowerCase()}...
+                            </div>
+                            <div class="message-time">${timeString}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            return chatItem;
+        }
+
+        // Toggle Sidebar
+        sidebarCollapse.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+        });
+
+        // Dark Mode Toggle
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = darkModeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // User Settings
+        userSettings.addEventListener('click', () => {
+            alert('User settings panel will be implemented here');
+        });
+
+        // Initialize
+        adjustTextareaHeight();
+    </script>
+</body>
+
+</html>

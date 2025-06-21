@@ -1,0 +1,8 @@
+flask==3.0.2
+numpy==1.26.4
+tensorflow==2.16.1  # Updated to latest stable version
+torch==2.2.1
+transformers==4.38.2
+nltk==3.8.1
+scikit-learn==1.4.0
+setuptools==69.1.0
