@@ -96,19 +96,13 @@ metrics = {
 """
 
 ## Demo
-<!-- Embedded video link -->
-<div align="center">
-  <a href="<!-- Embedded video link -->
-<div align="center">
-  <a href="https://screenrec.com/share/uqWtUIR1xv">
-    <img src="https://img.shields.io/badge/Watch_Demo-FF5722?style=for-the-badge&logo=vlc&logoColor=white" alt="Demo Video">
-  </a>
-</div>">
-    <img src="https://img.shields.io/badge/Watch_Demo-FF5722?style=for-the-badge&logo=vlc&logoColor=white" alt="Demo Video">
-  </a>
-</div>
+"""
+Demo Video: https://youtu.be/jlXRgkS0mNA
+"""
+
 
 ## Future Work
+"""
 planned_upgrades = [
     "Multilingual support (Spanish/French Q3 2024)",
     "Image recognition for species ID",
@@ -116,8 +110,10 @@ planned_upgrades = [
     "Mobile app development",
     "Community reporting features"
 ]
+"""
 
 ## References
+"""
 \documentclass{article}
 \begin{document}
 \begin{enumerate}
@@ -126,8 +122,10 @@ planned_upgrades = [
 \item Hugging Face. (2023). \textit{Transformers Documentation}.
 \end{enumerate}
 \end{document}
+"""
 
 ## Technical Specifications
+"""
 model:
   architecture: GPT-2
   parameters: 117M
@@ -152,6 +150,7 @@ ui:
     - Conversation history  
     - Responsive design
     - Dark mode
+"""
 
 ## License: MIT
 ### Contact: g.bior@alustudent.com
