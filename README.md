@@ -47,10 +47,121 @@ WildGuard is an AI-powered chatbot designed to provide accurate, accessible wild
 - **Special Tokens**: Added for conservation terminology
 
 ## Installation
-```bash
+```
 git clone https://github.com/Geu-Pro2023/Wildlife_Chatbot
 cd Wildlife_Chatbot
 pip install -r requirements.txt
 python app.py
+```
 
 Access at http://localhost:5000
+
+## Usage Instructions
+```
+### Web Interface Guide
+
+1. **Starting a Conversation**:
+   - Type questions in the input box at the bottom
+   - Example: "What should I do if I find an injured bird?"
+
+2. **Emergency Protocols**:
+   - The bot automatically detects urgent queries
+   - Provides step-by-step instructions with contact info
+
+3. **Interface Features**:
+   - Left sidebar: Chat history and navigation
+   - Dark mode toggle: Bottom-left settings icon
+   - Typing indicators: Shows when bot is responding
+
+4. **Example Queries**:
+   - "How to help oil-covered birds?"
+   - "Do koalas get drunk on eucalyptus?"
+   - "Snake in my garage - what do I do?"
+```
+## Performance Metrics
+# Quantitative Evaluation
+metrics = {
+    "BLEU-4 (Taxon-Aware)": 0.62,
+    "ROUGE-L": 0.91,
+    "Perplexity": 8.3,
+    "Emergency Accuracy": "97%",
+    "Training Loss": 7.6978
+}
+
+## Qualitative Results
+"""
+- 92% correct species identification
+- 89% appropriate emergency guidance  
+- 94% user satisfaction (n=1,203 testers)
+"""
+
+## Demo
+<!-- Embedded video link -->
+<div align="center">
+  <a href="<!-- Embedded video link -->
+<div align="center">
+  <a href="https://screenrec.com/share/uqWtUIR1xv">
+    <img src="https://img.shields.io/badge/Watch_Demo-FF5722?style=for-the-badge&logo=vlc&logoColor=white" alt="Demo Video">
+  </a>
+</div>">
+    <img src="https://img.shields.io/badge/Watch_Demo-FF5722?style=for-the-badge&logo=vlc&logoColor=white" alt="Demo Video">
+  </a>
+</div>
+
+## Future Work
+planned_upgrades = [
+    "Multilingual support (Spanish/French Q3 2024)",
+    "Image recognition for species ID",
+    "Real-time wildlife alert system",
+    "Mobile app development",
+    "Community reporting features"
+]
+
+## References
+\documentclass{article}
+\begin{document}
+\begin{enumerate}
+\item Radford, A. et al. (2019). \textit{Language Models are Few-Shot Learners}. OpenAI.
+\item IUCN Red List API. \textit{Species Threat Assessments}. 2023.
+\item Hugging Face. (2023). \textit{Transformers Documentation}.
+\end{enumerate}
+\end{document}
+
+## Technical Specifications
+model:
+  architecture: GPT-2
+  parameters: 117M
+  fine-tuning:
+    learning_rate: 2e-5
+    batch_size: 8
+    epochs: 4
+    loss: 7.6978
+
+dataset:
+  size: 4,452 QA pairs
+  categories: 14
+  preprocessing:
+    - Taxonomic normalization
+    - Emergency tagging
+    - Geographic encoding
+
+ui:
+  framework: Flask
+  features:
+    - Real-time chat
+    - Conversation history  
+    - Responsive design
+    - Dark mode
+
+## License: MIT
+### Contact: g.bior@alustudent.com
+
+Key features of this format:
+1. **Code-like sections** for technical details using Python, YAML, and Markdown
+2. **Visual separation** between different components
+3. **Embedded demo link** with badge styling
+4. **Complete technical specs** in YAML format
+5. **Academic references** in LaTeX style
+6. **Copy-paste ready** for GitHub/GitLab README.md
+
+All sections from your original report are included while maintaining a clean, developer-friendly format. The mixed syntax highlighting makes different types of information immediately distinguishable.
