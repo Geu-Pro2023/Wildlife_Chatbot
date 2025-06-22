@@ -1,23 +1,18 @@
 # WildGuard: Wildlife Conservation Chatbot
 
-## Table of Contents
-- [Project Overview](#project-overview)
-- [Features](#features)
-- [Dataset](#dataset)
-- [Model Architecture](#model-architecture)
-- [Installation](#installation)
-- [Usage Instructions](#usage-instructions)
-- [Performance Metrics](#performance-metrics)
-- [Demo](#demo)
-- [Future Work](#future-work)
-- [References](#references)
-
-## Project Overview
-WildGuard is an AI-powered chatbot designed to provide accurate, accessible wildlife conservation information. Built using fine-tuned GPT-2, it bridges the gap between scientific expertise and public understanding by answering questions about:
+## Chatbot’s Purpose
+The project, WildGuard, is a domain-specific chatbot developed to address the growing need for accessible and accurate information about wildlife conservation. It is designed to assist users by providing reliable, informative responses to a wide range of queries related to environmental awareness and animal welfare. 
+The chatbot covers key topics such as eco-friendly practices, animal behavior, common myths, emergencies involving wildlife, the effects of climate change on biodiversity, and opportunities for volunteering and understanding conservation laws. Built using fine-tuned GPT-2, it bridges the gap between scientific expertise and public understanding by answering questions about:
 - Animal behavior & myths
 - Emergency wildlife protocols
 - Climate change impacts
 - Conservation volunteering
+
+## Why Choose WildGuard?
+This project addresses these challenges through the development of WildGuard, a specialized chatbot that leverages cutting-edge natural language processing to provide reliable, instant access to wildlife conservation knowledge. Unlike conventional FAQ systems or decision trees, WildGuard utilizes a fine-tuned GPT-2 model that can comprehend nuanced queries and generate contextually relevant responses. 
+
+## Dataset Overview
+The foundation of WildGuard's knowledge system rests upon a meticulously curated dataset comprising 4,452 question-answer pairs spanning 14 critical conservation categories. This collection represents one of the most comprehensive wildlife-focused conversational datasets developed for AI applications, with content systematically gathered from authoritative sources.
 
 ## Features
 - **Dynamic Responses**: Tailored answers based on question complexity
@@ -71,7 +66,7 @@ Access at http://localhost:5000
 3. **Interface Features**:
    - Left sidebar: Chat history and navigation
    - Dark mode toggle: Bottom-left settings icon
-   - Typing indicators: Shows when bot is responding
+   - Typing indicators: Shows when the bot is responding
 
 4. **Example Queries**:
    - "How to help oil-covered birds?"
