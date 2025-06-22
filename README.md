@@ -74,7 +74,6 @@ Access at http://localhost:5000
    - "Snake in my garage - what do I do?"
 ```
 ## Performance Metrics
-# Quantitative Evaluation
 metrics = {
     "BLEU-4 (Taxon-Aware)": 0.62,
     "ROUGE-L": 0.91,
@@ -84,31 +83,24 @@ metrics = {
 }
 
 ## Qualitative Results
-"""
 - 92% correct species identification
 - 89% appropriate emergency guidance  
 - 94% user satisfaction (n=1,203 testers)
-"""
 
 ## Demo
-"""
 Demo Video: https://youtu.be/jlXRgkS0mNA
-"""
-
 
 ## Future Work
-"""
 planned_upgrades = [
-    "Multilingual support (Spanish/French Q3 2024)",
-    "Image recognition for species ID",
-    "Real-time wildlife alert system",
-    "Mobile app development",
-    "Community reporting features"
+"Multilingual support (Spanish/French Q3 2024)",
+"Image recognition for species ID",
+"Real-time wildlife alert system",
+"Mobile app development",
+"Community reporting features"
 ]
-"""
 
 ## References
-"""
+```
 \documentclass{article}
 \begin{document}
 \begin{enumerate}
@@ -117,10 +109,10 @@ planned_upgrades = [
 \item Hugging Face. (2023). \textit{Transformers Documentation}.
 \end{enumerate}
 \end{document}
-"""
+```
 
 ## Technical Specifications
-"""
+```
 model:
   architecture: GPT-2
   parameters: 117M
@@ -145,7 +137,7 @@ ui:
     - Conversation history  
     - Responsive design
     - Dark mode
-"""
+```
 
 ## License: MIT
 ### Contact: g.bior@alustudent.com
