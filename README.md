@@ -44,34 +44,34 @@ The foundation of WildGuard's knowledge system rests upon a meticulously curated
 ## Installation
 ```
 git clone https://github.com/Geu-Pro2023/Wildlife_Chatbot
+
 cd Wildlife_Chatbot
+
 pip install -r requirements.txt
+
 python app.py
 ```
-
 Access at http://localhost:5000
 
 ## Usage Instructions
-```
 ### Web Interface Guide
-
-1. **Starting a Conversation**:
+```
+1. Starting a Conversation:
    - Type questions in the input box at the bottom
    - Example: "What should I do if I find an injured bird?"
-
 2. **Emergency Protocols**:
    - The bot automatically detects urgent queries
    - Provides step-by-step instructions with contact info
 
-3. **Interface Features**:
+3. Interface Features:
    - Left sidebar: Chat history and navigation
    - Dark mode toggle: Bottom-left settings icon
    - Typing indicators: Shows when the bot is responding
 
-4. **Example Queries**:
+4. Example Queries:
    - "How to help oil-covered birds?"
    - "Do koalas get drunk on eucalyptus?"
-   - "Snake in my garage - what do I do?"
+   - "Snake in my garage - what do I do?"   
 ```
 ## Performance Metrics
 metrics = {
@@ -101,35 +101,19 @@ planned_upgrades = [
 
 ## UI Integration Interface
 <img width="1440" alt="Screenshot 2025-06-22 at 7 03 44 pm" src="https://github.com/user-attachments/assets/8035a67a-1b10-4aeb-ae76-bf0e74c5b2ca" />
-
-
-
-
 <img width="1434" alt="Screenshot 2025-06-22 at 7 05 55 pm" src="https://github.com/user-attachments/assets/aa7c1cd0-8634-47ce-8215-5b9445fcd8b0" />
 
 
-## Technical Specifications
+## Hyperparameter Tuning Results
 ```
-### Hyperparameter Tuning Results
-
-| **Experiment** | **Learning Rate** | **Batch Size** | **Epochs** | **Final Training Loss** | **Response Quality**                          |
-|----------------|-------------------|----------------|------------|--------------------------|-----------------------------------------------|
-| Baseline       | 5e-5              | 4              | 3          | 7.69                     | Coherent but generic                          |
-| Exp 2          | 3e-5              | 8              | 3          | 6.82                     | More relevant and concise                     |
-| Exp 3          | 2e-5              | 8              | 4          | 6.41                     | Best overall fluency and domain alignment     |
-| Exp 4          | 1e-5              | 4              | 5          | 7.05                     | Signs of overfitting, reduced diversity       |
+| Experiment | Learning Rate | Batch Size | Epochs | Final Training Loss | Response Quality |
+|------------|----------------|-------------|--------|----------------------|------------------|
+| Baseline   | 5e-5           | 4           | 3      | 7.69                 | Coherent but generic |
+| Exp 2      | 3e-5           | 8           | 3      | 6.82                 | More relevant and concise |
+| Exp 3      | 2e-5           | 8           | 4      | 6.41                 | Best overall fluency |
+| Exp 4      | 1e-5           | 4           | 5      | 7.05                 | Signs of overfitting |
 
 ```
 
 ## License: MIT
 ### Contact: g.bior@alustudent.com
-
-Key features of this format:
-1. **Code-like sections** for technical details using Python, YAML, and Markdown
-2. **Visual separation** between different components
-3. **Embedded demo link** with badge styling
-4. **Complete technical specs** in YAML format
-5. **Academic references** in LaTeX style
-6. **Copy-paste ready** for GitHub/GitLab README.md
-
-All sections from your original report are included while maintaining a clean, developer-friendly format. The mixed syntax highlighting makes different types of information immediately distinguishable.
