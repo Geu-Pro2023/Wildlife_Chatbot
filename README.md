@@ -99,17 +99,14 @@ planned_upgrades = [
 "Community reporting features"
 ]
 
-## References
-```
-\documentclass{article}
-\begin{document}
-\begin{enumerate}
-\item Radford, A. et al. (2019). \textit{Language Models are Few-Shot Learners}. OpenAI.
-\item IUCN Red List API. \textit{Species Threat Assessments}. 2023.
-\item Hugging Face. (2023). \textit{Transformers Documentation}.
-\end{enumerate}
-\end{document}
-```
+## UI Integration Interface
+<img width="1440" alt="Screenshot 2025-06-22 at 7 03 44 pm" src="https://github.com/user-attachments/assets/8035a67a-1b10-4aeb-ae76-bf0e74c5b2ca" />
+
+
+<img width="1434" alt="Screenshot 2025-06-22 at 7 05 55 pm" src="https://github.com/user-attachments/assets/aa7c1cd0-8634-47ce-8215-5b9445fcd8b0" />
+
+
+
 
 ## Technical Specifications
 ```
