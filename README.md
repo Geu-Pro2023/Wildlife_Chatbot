@@ -44,11 +44,8 @@ The foundation of WildGuard's knowledge system rests upon a meticulously curated
 ## Installation
 ```
 git clone https://github.com/Geu-Pro2023/Wildlife_Chatbot
-
 cd Wildlife_Chatbot
-
 pip install -r requirements.txt
-
 python app.py
 ```
 Access at http://localhost:5000
@@ -91,13 +88,7 @@ metrics = {
 Demo Video: https://youtu.be/jlXRgkS0mNA
 
 ## Future Work
-planned_upgrades = [
-"Multilingual support (Spanish/French Q3 2024)",
-"Image recognition for species ID",
-"Real-time wildlife alert system",
-"Mobile app development",
-"Community reporting features"
-]
+planned_upgrades = ["Multilingual support (Spanish/French Q3 2024)", "Image recognition for species ID","Real-time wildlife alert system","Mobile app development","Community reporting features"]
 
 ## UI Integration Interface
 <img width="1440" alt="Screenshot 2025-06-22 at 7 03 44 pm" src="https://github.com/user-attachments/assets/8035a67a-1b10-4aeb-ae76-bf0e74c5b2ca" />
@@ -106,12 +97,12 @@ planned_upgrades = [
 
 ## Hyperparameter Tuning Results
 ```
-| Experiment | Learning Rate | Batch Size | Epochs | Final Training Loss | Response Quality |
-|------------|----------------|-------------|--------|----------------------|------------------|
-| Baseline   | 5e-5           | 4           | 3      | 7.69                 | Coherent but generic |
-| Exp 2      | 3e-5           | 8           | 3      | 6.82                 | More relevant and concise |
-| Exp 3      | 2e-5           | 8           | 4      | 6.41                 | Best overall fluency |
-| Exp 4      | 1e-5           | 4           | 5      | 7.05                 | Signs of overfitting |
+| Experiment | Learning Rate | Batch Size | Epochs | Final Training Loss | Response Quality          |
+| ---------- | ------------- | ---------- | ------ | ------------------- | ------------------------- |
+| Baseline   | 5e-5          | 4          | 3      | 7.69                | Coherent but generic      |
+| Exp 2      | 3e-5          | 8          | 3      | 6.82                | More relevant and concise |
+| Exp 3      | 2e-5          | 8          | 4      | 6.41                | Best overall fluency      |
+| Exp 4      | 1e-5          | 4          | 5      | 7.05                | Signs of overfitting      |
 
 ```
 
