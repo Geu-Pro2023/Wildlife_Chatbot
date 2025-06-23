@@ -103,37 +103,22 @@ planned_upgrades = [
 <img width="1440" alt="Screenshot 2025-06-22 at 7 03 44 pm" src="https://github.com/user-attachments/assets/8035a67a-1b10-4aeb-ae76-bf0e74c5b2ca" />
 
 
+
+
 <img width="1434" alt="Screenshot 2025-06-22 at 7 05 55 pm" src="https://github.com/user-attachments/assets/aa7c1cd0-8634-47ce-8215-5b9445fcd8b0" />
-
-
 
 
 ## Technical Specifications
 ```
-model:
-  architecture: GPT-2
-  parameters: 117M
-  fine-tuning:
-    learning_rate: 2e-5
-    batch_size: 8
-    epochs: 4
-    loss: 7.6978
+### Hyperparameter Tuning Results
 
-dataset:
-  size: 4,452 QA pairs
-  categories: 14
-  preprocessing:
-    - Taxonomic normalization
-    - Emergency tagging
-    - Geographic encoding
+| **Experiment** | **Learning Rate** | **Batch Size** | **Epochs** | **Final Training Loss** | **Response Quality**                          |
+|----------------|-------------------|----------------|------------|--------------------------|-----------------------------------------------|
+| Baseline       | 5e-5              | 4              | 3          | 7.69                     | Coherent but generic                          |
+| Exp 2          | 3e-5              | 8              | 3          | 6.82                     | More relevant and concise                     |
+| Exp 3          | 2e-5              | 8              | 4          | 6.41                     | Best overall fluency and domain alignment     |
+| Exp 4          | 1e-5              | 4              | 5          | 7.05                     | Signs of overfitting, reduced diversity       |
 
-ui:
-  framework: Flask
-  features:
-    - Real-time chat
-    - Conversation history  
-    - Responsive design
-    - Dark mode
 ```
 
 ## License: MIT
