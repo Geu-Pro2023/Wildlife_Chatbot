@@ -41,7 +41,30 @@ The foundation of WildGuard's knowledge system rests upon a meticulously curated
   - Epochs: 4
 - **Special Tokens**: Added for conservation terminology
 
-## Installation
+## Project Structure
+Wildlife_Chatbot/
+├── dataset/
+│   └── wildlife_data.csv
+├── images/
+|    └── logo.png
+├── models/
+│   ├── Wildlifebot_Catergory.json
+│   ├── wildlife_chatbot_model.h5
+│   ├── wildlife_words.pkl      
+│   ├── wildlife_classes.pkl         
+│   └── tokenizer.pickle                
+├── notebooks/
+│   ├── Wildlife_Domain_Chatbot.ipynb
+├── templates
+|   ├── auth.html
+|   ├── base.html
+|   ├── chat.html
+|   ├── login
+|   ├── signup
+|
+└── README.md                            
+
+## WildGuard Chatbot Installation
 ```
 git clone https://github.com/Geu-Pro2023/Wildlife_Chatbot
 cd Wildlife_Chatbot
@@ -50,8 +73,8 @@ python app.py
 ```
 Access at http://localhost:5000
 
-## Usage Instructions
-### Web Interface Guide
+## WildGuard Chatbot Instructions
+#### Web Interface Guide
 ```
 1. Starting a Conversation:
    - Type questions in the input box at the bottom
