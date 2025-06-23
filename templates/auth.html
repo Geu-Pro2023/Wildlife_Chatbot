@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Login Container -->
+<div class="auth-container" id="login-container">
+    <div class="auth-content">
+        <button class="close-auth" id="close-login">
+            <i class="fas fa-times"></i>
+        </button>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="WildGuard Logo" class="auth-logo">
+        <h2 class="auth-title">Welcome Back</h2>
+        <p class="auth-subtitle">Sign in to continue your wildlife conservation journey</p>
+        <form class="auth-form" id="login-form">
+            <div class="form-group">
+                <input type="email" class="form-input" placeholder="Email" required id="login-email">
+                <i class="fas fa-envelope input-icon" id="email-icon"></i>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-input" placeholder="Password" required id="login-password">
+                <i class="fas fa-eye input-icon toggle-password" id="toggle-password"></i>
+            </div>
+            <div class="form-actions">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember-me">
+                    <label for="remember-me">Remember me</label>
+                </div>
+                <a class="forgot-password" id="forgot-password">Forgot password?</a>
+            </div>
+            <button type="submit" class="auth-button">Sign In</button>
+        </form>
+        <div class="auth-footer">
+            Don't have an account? <a class="auth-link" id="show-signup">Sign up</a>
+        </div>
+    </div>
+</div>
+
+<!-- Signup Container -->
+<div class="auth-container" id="signup-container">
+    <div class="auth-content">
+        <button class="close-auth" id="close-signup">
+            <i class="fas fa-times"></i>
+        </button>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="WildGuard Logo" class="auth-logo">
+        <h2 class="auth-title">Join WildGuard</h2>
+        <p class="auth-subtitle">Create your account to start exploring wildlife conservation</p>
+        <form class="auth-form" id="signup-form">
+            <div class="form-group">
+                <input type="text" class="form-input" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-input" placeholder="Email" required id="signup-email">
+                <i class="fas fa-envelope input-icon" id="signup-email-icon"></i>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-input" placeholder="Password" required id="signup-password">
+                <i class="fas fa-eye input-icon toggle-password" id="toggle-signup-password"></i>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-input" placeholder="Confirm Password" required id="confirm-password">
+                <i class="fas fa-eye input-icon toggle-password" id="toggle-confirm-password"></i>
+            </div>
+            <button type="submit" class="auth-button">Create Account</button>
+        </form>
+        <div class="auth-footer">
+            Already have an account? <a class="auth-link" id="show-login">Sign in</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
