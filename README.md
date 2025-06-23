@@ -42,6 +42,7 @@ The foundation of WildGuard's knowledge system rests upon a meticulously curated
 - **Special Tokens**: Added for conservation terminology
 
 ## Project Structure
+```
 Wildlife_Chatbot/
 ├── dataset/
 │   └── wildlife_data.csv
@@ -62,7 +63,8 @@ Wildlife_Chatbot/
 |   ├── login
 |   ├── signup
 |
-└── README.md                            
+└── README.md
+```
 
 ## WildGuard Chatbot Installation
 ```
